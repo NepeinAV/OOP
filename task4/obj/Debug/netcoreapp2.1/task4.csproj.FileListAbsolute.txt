@@ -1,0 +1,11 @@
+C:\Users\nepei\Desktop\C#\task4\bin\Debug\netcoreapp2.1\task4.deps.json
+C:\Users\nepei\Desktop\C#\task4\bin\Debug\netcoreapp2.1\task4.runtimeconfig.json
+C:\Users\nepei\Desktop\C#\task4\bin\Debug\netcoreapp2.1\task4.runtimeconfig.dev.json
+C:\Users\nepei\Desktop\C#\task4\bin\Debug\netcoreapp2.1\task4.dll
+C:\Users\nepei\Desktop\C#\task4\bin\Debug\netcoreapp2.1\task4.pdb
+C:\Users\nepei\Desktop\C#\task4\obj\Debug\netcoreapp2.1\task4.csprojAssemblyReference.cache
+C:\Users\nepei\Desktop\C#\task4\obj\Debug\netcoreapp2.1\task4.csproj.CoreCompileInputs.cache
+C:\Users\nepei\Desktop\C#\task4\obj\Debug\netcoreapp2.1\task4.AssemblyInfoInputs.cache
+C:\Users\nepei\Desktop\C#\task4\obj\Debug\netcoreapp2.1\task4.AssemblyInfo.cs
+C:\Users\nepei\Desktop\C#\task4\obj\Debug\netcoreapp2.1\task4.dll
+C:\Users\nepei\Desktop\C#\task4\obj\Debug\netcoreapp2.1\task4.pdb
