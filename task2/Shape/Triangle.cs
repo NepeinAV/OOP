@@ -27,15 +27,9 @@ namespace task2
 
         override public void Display()
         {
-            if (this.isPossible(a, b, c))
-            {
-                Console.WriteLine(String.Format("Периметр: {0}\nПлощадь: {1}\n", this.Perimeter(), this.Area()));
-
-            }
-            else
-            {
-                Console.WriteLine(String.Format("Треугольник со сторонами {0}, {1}, {2} не существует\n", a, b, c));
-            }
+            Console.WriteLine((this.isPossible(a, b, c)) ?
+                String.Format("Периметр: {0}\nПлощадь: {1}\n", this.Perimeter(), this.Area()) :
+                String.Format("Треугольник со сторонами {0}, {1}, {2} не существует\n", a, b, c));
         }
     }
 }

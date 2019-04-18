@@ -16,7 +16,10 @@ namespace task4
             this.date = new DateTime(year, month, day);
         }
 
-        ~Date() { }
+        ~Date()
+        {
+            Console.WriteLine("called");
+        }
 
         public override string ToString()
         {
@@ -36,6 +39,11 @@ namespace task4
         public static Date operator +(Date d, int day)
         {
             return new Date(d.date.AddDays(day));
+        }
+
+        public static Date operator -(Date d, int day)
+        {
+            return new Date(d.date.AddDays(-day));
         }
     }
 }
