@@ -10,13 +10,13 @@ namespace task5
         private int[] number;
         private int Length;
         private int sign;
-        private int maxLength = 2;
+        private int maxLength = 100;
 
         /// <param name="number">Signed number</param>
         public HugeInteger(string number)
         {
             this.sign = (number[0] == '-') ? -1 : 1;
-            number = Regex.Replace(number, "[^0-9]", "").TrimStart('0');
+            number = new String(number.Where(Char.IsDigit).ToArray()).TrimStart('0');
             this.SetNumber(number);
         }
 
@@ -25,7 +25,7 @@ namespace task5
         public HugeInteger(int[] number, int sign = 1)
         {
             this.sign = sign;
-            string num = Regex.Replace(String.Join("", number), "[^0-9]", "").TrimStart('0');
+            string num = new String(String.Join("", number).Where(Char.IsDigit).ToArray()).TrimStart('0');
             this.SetNumber(num);
         }
 
@@ -38,19 +38,26 @@ namespace task5
 
         public override string ToString() => ((this.sign == -1 && !this.isZero()) ? "-" : "") + String.Join("", new ArraySegment<int>(this.number, this.number.Length - this.Length, this.Length));
 
-        public bool isZero() => this.Length == 1 && this.number[0] == 0;
+        public bool isZero() => this.Length == 1 && this.number[this.maxLength - 1] == 0;
 
         private static int CompareUnsigned(HugeInteger a, HugeInteger b)
         {
-            if (a.Length == b.Length) return String.Compare(Regex.Replace(a.ToString(), "[^0-9]", ""), Regex.Replace(b.ToString(), "[^0-9]", ""));
+            if (a.Length == b.Length) return String.Compare(a.ToString().TrimStart('-'), b.ToString().TrimStart('-'));
+            return (a.Length > b.Length) ? 1 : -1;
+        }
+
+        private static int CompareUnsigned(string a, string b)
+        {
+            if (a.Length == b.Length) return String.Compare(a, b);
             return (a.Length > b.Length) ? 1 : -1;
         }
 
         public static HugeInteger operator +(HugeInteger initial, HugeInteger added)
         {
             int compare = HugeInteger.CompareUnsigned(initial, added);
-            HugeInteger max = ((compare == 1 || compare == 0) ? initial : added);
-            HugeInteger min = ((compare == -1) ? initial : added);
+            HugeInteger max, min;
+            (max, min) = (compare == -1) ? (added, initial) : (initial, added);
+
             int[] initialNumber = max.number;
             bool swap = false;
 
@@ -102,10 +109,69 @@ namespace task5
             return new HugeInteger(newNumber.number, sign);
         }
 
-        public static HugeInteger operator /(HugeInteger initial, HugeInteger substracted)
+        private static (HugeInteger, string) DivideBySub(HugeInteger initial, HugeInteger divided)
         {
-            return new HugeInteger(initial.number, initial.sign) + new HugeInteger(substracted.number, -substracted.sign);
+            int q = 0;
+            while (initial >= divided)
+            {
+                initial -= divided;
+                q++;
+            }
+
+            return (initial, q.ToString());
         }
+
+        private static (string, string) Divide(HugeInteger initial, HugeInteger divided)
+        {
+            int sign = initial.sign * divided.sign; initial.sign = 1; divided.sign = 1;
+
+            if (initial < divided) return ("0", initial.ToString());
+            if (divided.isZero()) throw new DivideByZeroException();
+            if (divided.ToString() == "1") return (((sign == -1) ? "-" : "") + initial.ToString(), "0");
+
+            int zeros = Math.Min(divided.Length - divided.ToString().TrimEnd('0').Length, initial.Length - initial.ToString().TrimEnd('0').Length);
+            divided = new HugeInteger(divided.ToString().Substring(0, divided.Length - zeros));
+            initial = new HugeInteger(initial.ToString().Substring(0, initial.Length - zeros));
+
+            HugeInteger newNumber;
+            string dividedNumberStr = divided.ToString();
+
+            string q, tmp, sliceI, tail; q = tmp = tail = sliceI = "";
+            bool first = true;
+            int i, count;
+            int lastLength = divided.Length;
+
+
+            while (initial >= divided)
+            {
+                i = initial.maxLength - initial.Length;
+                sliceI = String.Join("", initial.number.Skip(i).Take(lastLength + ((first) ? 0 : 1)));
+                count = (first) ? 1 : 2;
+
+                while (HugeInteger.CompareUnsigned(sliceI, dividedNumberStr) < 0)
+                {
+                    if (!first) q += "0";
+                    sliceI = String.Join("", initial.number.Skip(i).Take(lastLength + count));
+                    count++;
+                }
+
+                first = false;
+
+                (newNumber, tmp) = HugeInteger.DivideBySub(new HugeInteger(sliceI), new HugeInteger(dividedNumberStr));
+                q += tmp;
+                lastLength = newNumber.Length;
+                tail = String.Join("", initial.number.Skip(initial.maxLength - initial.Length + sliceI.Length).Take(initial.maxLength - (initial.maxLength - initial.Length + sliceI.Length)));
+                initial = new HugeInteger(newNumber.ToString() + tail);
+            }
+
+            if (tail != "") q = q.PadRight(q.Length + tail.Length, '0');
+
+            return (((sign == -1) ? "-" : "") + q, initial.ToString());
+        }
+
+        public static HugeInteger operator /(HugeInteger initial, HugeInteger divided) => new HugeInteger(HugeInteger.Divide(initial, divided).Item1);
+
+        public static HugeInteger operator %(HugeInteger initial, HugeInteger divided) => new HugeInteger(HugeInteger.Divide(initial, divided).Item2);
 
         public static bool operator ==(HugeInteger a, HugeInteger b) => a.ToString() == b.ToString();
 
@@ -116,7 +182,7 @@ namespace task5
             if (a.sign < b.sign) return false;
             else if (a.sign > b.sign) return true;
             int comp = HugeInteger.CompareUnsigned(a, b);
-            return comp == 1 && a.sign == 1 || comp == -1 && a.sign == -1;
+            return comp == a.sign;
         }
 
         public static bool operator <(HugeInteger a, HugeInteger b) => !(a > b) && a != b;
