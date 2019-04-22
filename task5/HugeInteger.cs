@@ -40,7 +40,7 @@ namespace task5
 
         public bool isZero() => this.Length == 1 && this.number[this.maxLength - 1] == 0;
 
-        private static int CompareUnsigned(HugeInteger a, HugeInteger b)
+        protected static int CompareUnsigned(HugeInteger a, HugeInteger b)
         {
             if (a.Length == b.Length) return String.Compare(a.ToString().TrimStart('-'), b.ToString().TrimStart('-'));
             return (a.Length > b.Length) ? 1 : -1;
