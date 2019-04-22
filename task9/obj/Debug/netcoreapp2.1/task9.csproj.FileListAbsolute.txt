@@ -1,0 +1,11 @@
+C:\Users\nepei\Desktop\C#\task9\bin\Debug\netcoreapp2.1\task9.deps.json
+C:\Users\nepei\Desktop\C#\task9\bin\Debug\netcoreapp2.1\task9.runtimeconfig.json
+C:\Users\nepei\Desktop\C#\task9\bin\Debug\netcoreapp2.1\task9.runtimeconfig.dev.json
+C:\Users\nepei\Desktop\C#\task9\bin\Debug\netcoreapp2.1\task9.dll
+C:\Users\nepei\Desktop\C#\task9\bin\Debug\netcoreapp2.1\task9.pdb
+C:\Users\nepei\Desktop\C#\task9\obj\Debug\netcoreapp2.1\task9.csprojAssemblyReference.cache
+C:\Users\nepei\Desktop\C#\task9\obj\Debug\netcoreapp2.1\task9.csproj.CoreCompileInputs.cache
+C:\Users\nepei\Desktop\C#\task9\obj\Debug\netcoreapp2.1\task9.AssemblyInfoInputs.cache
+C:\Users\nepei\Desktop\C#\task9\obj\Debug\netcoreapp2.1\task9.AssemblyInfo.cs
+C:\Users\nepei\Desktop\C#\task9\obj\Debug\netcoreapp2.1\task9.dll
+C:\Users\nepei\Desktop\C#\task9\obj\Debug\netcoreapp2.1\task9.pdb
