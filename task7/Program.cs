@@ -6,9 +6,9 @@ namespace task7
     {
         static void Main(string[] args)
         {
-            Polinomials p = new Polinomials(new int[] { 0, 0, 6, -2 });
-            Polinomials p1 = new Polinomials(new int[] { 0, 0, 6, -2, 4 });
-            Console.WriteLine(p - p1 + p1 + p);
+            Polinomials p = new Polinomials(new double[] { 1, 0, 1, 0, -3, -3, 8, 2, -5 });
+            Polinomials p1 = new Polinomials(new double[] { 3, 0, 5, 0, -4, -9, 21 });
+            Console.WriteLine(p *= p1);
         }
     }
 }
