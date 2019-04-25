@@ -14,7 +14,7 @@ namespace task5
         private int[] number;
         private int Length;
         private int sign;
-        private int maxLength = 1000;
+        private int maxLength = 30000;
 
         /// <param name="number">Signed number</param>
         public HugeInteger(string number)
@@ -139,6 +139,13 @@ namespace task5
         private static (HugeInteger, string) DivideBySub(HugeInteger initial, HugeInteger divided)
         {
             int q = 0;
+            ulong a, b = 0;
+
+            if (ulong.TryParse(initial.ToString(), out a) && ulong.TryParse(divided.ToString(), out b))
+            {
+                return (new HugeInteger((a % b).ToString()), (a / b).ToString());
+            }
+
             HugeInteger d = new HugeInteger(divided.number, -divided.sign, true);
             while (initial >= divided)
             {
@@ -177,6 +184,7 @@ namespace task5
                 sliceI = String.Join("", initialNumberStr.Take(sliceLength));
                 count++;
 
+
                 while (HugeInteger.CompareUnsigned(sliceI, dividedNumberStr) < 0)
                 {
                     if (!first) q += "0";
@@ -188,14 +196,13 @@ namespace task5
 
                 (newNumber, tmp) = HugeInteger.DivideBySub(new HugeInteger(sliceI), divided);
 
-                if (newNumber.isZero()) zero = true;
-                else zero = false;
+                zero = newNumber.isZero() ? true : false;
 
                 q += tmp;
                 lastLength = newNumber.Length;
                 tail = String.Join("", initialNumberStr.Skip(sliceI.Length).Take(initial.Length - sliceI.Length));
 
-                initialNumberStr = newNumber.ToString() + tail;
+                initialNumberStr = ((!newNumber.isZero()) ? newNumber.ToString() : "") + tail;
             }
 
             if (tail != "") q = q.PadRight(q.Length + tail.Length, '0');
