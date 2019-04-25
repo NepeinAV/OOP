@@ -8,21 +8,26 @@ namespace task5
     {
         static void Main(string[] args)
         {
-            HugeInteger h1 = new HugeInteger("954237482347816239123671237123478263476237482364782364782346782346237846237351267351272347826347623748236478236478234678234623784623735126735127234782634762374823647823647823467823462378462373512673512723123611231295423748234781623912367123712312361123129542374823478162391236712371231236112312954237482347816239123671237123123611231295423748234781623912367123712312361123129542374823478162391236712371231236112312954237482347816239123671237123123611231295423748234781623912367123712312361123129542374823478162391236712371231236112312");
-            HugeInteger h2 = new HugeInteger("2347826347623748236478236478234678234623784623735126735127");
-            Console.WriteLine(new HugeInteger("10") * new HugeInteger("0"));
+            HugeInteger h1 = new HugeInteger("954237482347816239123671237123478263476237482364782364782346234782348972389467234789237489234567834457903534895678934572348573489563489573487348634578467589234578348956789347568934573489573489534");
+            HugeInteger h2 = new HugeInteger("23234872347962347823647823467238462378");
+            // Console.WriteLine(new HugeInteger("10") * new HugeInteger("0"));
             // Console.WriteLine(new HugeInteger("10") / new HugeInteger("0"));
-            Console.WriteLine(h1 * h2);
-            Console.WriteLine(h1 / h2);
-            Console.WriteLine(h1 % h2);
-            Console.WriteLine(h1 + h2);
-            Console.WriteLine(h1 - h2);
-            Console.WriteLine(h1 > h2);
-            Console.WriteLine(h1 < h2);
-            Console.WriteLine(h1 == h2);
-            Console.WriteLine(h1 >= h2);
-            Console.WriteLine(h1 <= h2);
-            Console.WriteLine(h1 != h2);
+            // Console.WriteLine(h1 * h2);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            h1 /= h2;
+            sw.Stop();
+            Console.WriteLine(sw.ElapsedMilliseconds);
+            Console.WriteLine(h1);
+            // Console.WriteLine(h1 % h2);
+            // Console.WriteLine(h1 + h2);
+            // Console.WriteLine(h1 - h2);
+            // Console.WriteLine(h1 > h2);
+            // Console.WriteLine(h1 < h2);
+            // Console.WriteLine(h1 == h2);
+            // Console.WriteLine(h1 >= h2);
+            // Console.WriteLine(h1 <= h2);
+            // Console.WriteLine(h1 != h2);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace task5
         private int[] number;
         private int Length;
         private int sign;
-        private int maxLength = 700;
+        private int maxLength = 1000;
 
         /// <param name="number">Signed number</param>
         public HugeInteger(string number)
@@ -75,8 +75,6 @@ namespace task5
                 return 0;
             }
             return (a.Length > b.Length) ? 1 : -1;
-
-
         }
 
         private static int CompareUnsigned(string a, string b)
@@ -141,9 +139,10 @@ namespace task5
         private static (HugeInteger, string) DivideBySub(HugeInteger initial, HugeInteger divided)
         {
             int q = 0;
+            HugeInteger d = new HugeInteger(divided.number, -divided.sign, true);
             while (initial >= divided)
             {
-                initial -= divided;
+                initial += d;
                 q++;
             }
 
@@ -159,31 +158,29 @@ namespace task5
 
             int zeros = Math.Min(divided.Length - String.Join("", divided.number).TrimStart('0').Length, initial.Length - String.Join("", initial.number).TrimStart('0').Length);
 
-            divided = new HugeInteger(divided.number.Skip(zeros).Take(divided.Length - zeros).ToArray(), 1, true);
-            initial = new HugeInteger(initial.number.Skip(zeros).Take(initial.Length - zeros).ToArray(), 1, true);
+            string dividedNumberStr = String.Join("", divided.number.Skip(zeros).Take(divided.Length - zeros).Reverse()).TrimStart('0');
+            string initialNumberStr = String.Join("", initial.number.Skip(zeros).Take(initial.Length - zeros).Reverse()).TrimStart('0');
 
             HugeInteger newNumber;
-            string dividedNumberStr = divided.ToString();
 
             string q, tmp, tail; q = tmp = tail = "";
             bool first = true;
             bool zero = true;
             string sliceI;
-            int i, count;
+            int count;
             int lastLength = divided.Length;
 
-            while (initial >= divided)
+            while (HugeInteger.CompareUnsigned(initialNumberStr, dividedNumberStr) >= 0)
             {
-                i = initial.maxLength - initial.Length;
                 count = (zero) ? 0 : 1;
                 int sliceLength = lastLength + count;
-                sliceI = String.Join("", initial.number.Skip(initial.Length - sliceLength).Take(sliceLength).Reverse());
+                sliceI = String.Join("", initialNumberStr.Take(sliceLength));
                 count++;
 
                 while (HugeInteger.CompareUnsigned(sliceI, dividedNumberStr) < 0)
                 {
                     if (!first) q += "0";
-                    sliceI += initial.number[initial.Length - sliceI.Length - 1].ToString();
+                    sliceI += initialNumberStr[sliceI.Length].ToString();
                     count++;
                 }
 
@@ -196,11 +193,13 @@ namespace task5
 
                 q += tmp;
                 lastLength = newNumber.Length;
-                tail = String.Join("", initial.number.Take(initial.Length - sliceI.Length).Reverse());
-                initial = new HugeInteger(newNumber.ToString() + tail);
+                tail = String.Join("", initialNumberStr.Skip(sliceI.Length).Take(initial.Length - sliceI.Length));
+
+                initialNumberStr = newNumber.ToString() + tail;
             }
 
-            if (tail != "") q = q.PadLeft(q.Length + tail.Length, '0');
+            if (tail != "") q = q.PadRight(q.Length + tail.Length, '0');
+
 
             return (((sign == -1) ? "-" : "") + q, initial.ToString());
         }
